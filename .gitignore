@@ -1,0 +1,12 @@
+node_modules/
+.next/
+out/
+build/
+.sites-runtime/
+*.log
+.env*
+!.env.example
+AGENTS.md
+CLAUDE.md
+Reference/
+*.tsbuildinfo
