@@ -8,8 +8,8 @@ export const siteConfig = {
     about: true,
     projects: true,
     skills: true,
+    lab: true,
     recognition: true,
-    journey: true,
     contact: true,
   },
 } as const;
@@ -18,6 +18,7 @@ export const navigation = [
   { label: "About", href: "#about" },
   { label: "Work", href: "#work" },
   { label: "Skills", href: "#skills" },
-  { label: "Journey", href: "#journey" },
+  { label: "Lab", href: "#lab" },
+  { label: "Certificates", href: "#certificates" },
   { label: "Contact", href: "#contact" },
 ] as const;

@@ -9,5 +9,4 @@ export const profile = {
     program: "BCA",
     period: "2024 — 2027",
   },
-  resumeUrl: null as string | null,
 } as const;

@@ -6,19 +6,18 @@ import { FaGithub, FaLinkedinIn } from "react-icons/fa6";
 import { motion, useInView, useMotionValue, useReducedMotion, useSpring, useTransform } from "motion/react";
 import { useRef } from "react";
 import { navigation } from "@/data/site";
-import { profile } from "@/data/profile";
 import { socials } from "@/data/socials";
 import { FadeIn } from "@/components/motion/fade-in";
 
 function ContactItem({ index, label, value, href, icon }: { index: number; label: string; value: string; href: string | null; icon: React.ReactNode }) {
-  const content = <><span className="contact-index">{String(index + 1).padStart(2, "0")}</span><span className="contact-icon" aria-hidden="true">{icon}</span><span className="contact-label">{label}</span><strong>{value}</strong><ArrowUpRight className="contact-arrow" size={18} /></>;
+  const content = <><span className="contact-index">{String(index + 1).padStart(2, "0")}</span><span className="contact-icon" aria-hidden="true">{icon}</span><span className="contact-label">{label}</span><strong>{value}</strong><span className="contact-arrow" aria-hidden="true"><i>—</i><ArrowUpRight size={18} /></span></>;
   return href ? (
-    <a className="contact-item" href={href} target={href.startsWith("mailto:") ? undefined : "_blank"} rel={href.startsWith("mailto:") ? undefined : "noreferrer"}>
+    <a className="contact-item" href={href} target={href.startsWith("mailto:") ? undefined : "_blank"} rel={href.startsWith("mailto:") ? undefined : "noopener noreferrer"}>
       {content}
     </a>
   ) : (
     <div className="contact-item unavailable-contact" aria-disabled="true" title={`${label} can be added in socials data`}>
-      <span className="contact-index">{String(index + 1).padStart(2, "0")}</span><span className="contact-icon" aria-hidden="true">{icon}</span><span className="contact-label">{label}</span><strong>Not added yet</strong><span className="contact-arrow">—</span>
+      <span className="contact-index">{String(index + 1).padStart(2, "0")}</span><span className="contact-icon" aria-hidden="true">{icon}</span><span className="contact-label">{label}</span><strong>{value}</strong><span className="contact-arrow" aria-hidden="true">—</span>
     </div>
   );
 }
@@ -52,10 +51,10 @@ export function ContactFooter({ year }: { year: number }) {
           <FadeIn className="contact-panel" delay={0.08}>
             <p>Open to placements, internships, professional networking, and thoughtful collaborations.</p>
             <div className="contact-list">
-              <ContactItem index={0} label="Email" value={socials.email ?? ""} href={socials.email ? `mailto:${socials.email}` : null} icon={<Mail />} />
-              <ContactItem index={1} label="GitHub" value="View profile" href={socials.github} icon={<FaGithub />} />
-              <ContactItem index={2} label="LinkedIn" value="Connect" href={socials.linkedin} icon={<FaLinkedinIn />} />
-              <ContactItem index={3} label="Resume" value="Open résumé" href={profile.resumeUrl} icon={<FileText />} />
+              <ContactItem index={0} label="Email" value={socials.email} href={`mailto:${socials.email}`} icon={<Mail />} />
+              <ContactItem index={1} label="GitHub" value={socials.github.label} href={socials.github.url} icon={<FaGithub />} />
+              <ContactItem index={2} label="LinkedIn" value={socials.linkedin.label} href={socials.linkedin.url} icon={<FaLinkedinIn />} />
+              <ContactItem index={3} label="Resume" value={socials.resumeUrl ? "Open Résumé" : "Coming Soon"} href={socials.resumeUrl} icon={<FileText />} />
             </div>
           </FadeIn>
         </div>

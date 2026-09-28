@@ -37,12 +37,12 @@ function RecognitionCard({ item, index, activeIndex, isInView, onOpen, onHover }
       transition={{ type: "spring", stiffness: hovered ? 170 : 82, damping: hovered ? 20 : 17, mass: 0.86, delay: isInView && activeIndex === null ? index * 0.08 : 0 }}
       style={{ zIndex: hovered ? 10 : index + 1 }}
     >
-      <div className="recognition-card-top"><span>{item.type}</span><span>{item.date ?? "Date not added"}</span></div>
-      <h3>{item.title}</h3>
+      <div className="recognition-card-top"><span>{item.type}</span><span>{item.date}</span></div>
+      <h3>{item.shortTitle}</h3>
       <div className="recognition-image">
-        {item.image ? <Image src={item.image} alt="" fill sizes="28vw" /> : <span>Verified image<br />goes here</span>}
+        <Image src={item.image} alt={`${item.title} certificate preview`} fill sizes="(max-width: 820px) 78vw, 24vw" />
       </div>
-      <div className="recognition-card-bottom"><span>{item.issuer ?? "Issuer not added"}</span><span>{item.placeholder ? "Placeholder" : "View"} ↗</span></div>
+      <div className="recognition-card-bottom"><span>{item.institutionShort}</span><span>View ↗</span></div>
     </motion.button>
   );
 }
@@ -79,17 +79,19 @@ function RecognitionDialog({ item, onClose }: { item: RecognitionItem; onClose: 
       <motion.div ref={dialogRef} className="recognition-dialog" role="dialog" aria-modal="true" aria-labelledby="recognition-dialog-title" initial={{ opacity: 0, y: 28, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 18, scale: 0.98 }} transition={{ ease: [0.22, 1, 0.36, 1], duration: 0.42 }}>
         <button ref={closeRef} type="button" className="dialog-close" onClick={onClose} aria-label="Close recognition viewer"><X /></button>
         <div className="dialog-visual">
-          {item.image ? <Image src={item.image} alt={`${item.title} credential`} fill sizes="60vw" /> : <span>IMAGE PLACEHOLDER<br /><small>No credential image has been added.</small></span>}
+          <Image src={item.image} alt={`${item.title} certificate`} fill sizes="(max-width: 820px) 94vw, 58vw" priority />
         </div>
         <div className="dialog-copy">
-          <p className="label">{item.type}</p>
+          <p className="label">Achievement record</p>
           <h3 id="recognition-dialog-title">{item.title}</h3>
           <dl>
-            <div><dt>Issuer</dt><dd>{item.issuer ?? "Not added"}</dd></div>
-            <div><dt>Date</dt><dd>{item.date ?? "Not added"}</dd></div>
+            <div><dt>Achievement</dt><dd>{item.achievement}</dd></div>
+            <div><dt>Category</dt><dd>{item.category}</dd></div>
+            <div><dt>Institution</dt><dd>{item.institution}</dd></div>
+            <div><dt>Date</dt><dd>{item.date}</dd></div>
           </dl>
-          <p>{item.description}</p>
-          {item.credentialUrl ? <a href={item.credentialUrl} target="_blank" rel="noreferrer">View credential <ExternalLink size={15} /></a> : <span className="missing-link">Credential URL not added</span>}
+          <p>{item.event}</p>
+          {item.credentialUrl && <a href={item.credentialUrl} target="_blank" rel="noreferrer">View credential <ExternalLink size={15} /></a>}
         </div>
       </motion.div>
     </motion.div>
@@ -103,12 +105,12 @@ export function RecognitionSection() {
   const isInView = useInView(stageRef, { once: true, amount: 0.32 });
 
   return (
-    <section id="recognition" className="recognition-section">
-      <div className="section-kicker"><span>05</span><span>Recognition</span></div>
+    <section id="certificates" className="recognition-section">
+      <div className="section-kicker"><span>06</span><span>Selected achievements</span></div>
       <FadeIn className="recognition-heading">
-        <p className="label">A future archive</p>
+        <p className="label">Selected achievements</p>
         <h2>CERTIFICATE<br />COLLECTION</h2>
-        <p>Three neutral placeholders, ready to become verified records when real certificate details are available.</p>
+        <p>A small archive of competition wins and work recognized beyond the classroom.</p>
       </FadeIn>
       <div ref={stageRef} className="recognition-stage">
         {recognitionItems.map((item, index) => <RecognitionCard key={item.id} item={item} index={index} activeIndex={activeIndex} isInView={isInView} onHover={setActiveIndex} onOpen={() => setSelected(item)} />)}

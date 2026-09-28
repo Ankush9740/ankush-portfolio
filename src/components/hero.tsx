@@ -6,6 +6,7 @@ import { ArrowDownRight } from "lucide-react";
 import { useRef } from "react";
 import { navigation } from "@/data/site";
 import { profile } from "@/data/profile";
+import { socials } from "@/data/socials";
 
 export function Hero({ active }: { active: boolean }) {
   const heroRef = useRef<HTMLElement>(null);
@@ -50,10 +51,10 @@ export function Hero({ active }: { active: boolean }) {
         <nav aria-label="Primary navigation">
           {navigation.map((item) => <a key={item.href} href={item.href}>{item.label}</a>)}
         </nav>
-        {profile.resumeUrl ? (
-          <a className="resume-link" href={profile.resumeUrl} target="_blank" rel="noreferrer">Resume ↗</a>
+        {socials.resumeUrl ? (
+          <a className="resume-link" href={socials.resumeUrl} target="_blank" rel="noopener noreferrer">Resume ↗</a>
         ) : (
-          <span className="resume-link unavailable" title="Resume link can be added in profile data">Resume — soon</span>
+          <span className="resume-link unavailable" title="Resume link can be added in socials data">Resume — soon</span>
         )}
         <details className="mobile-nav">
           <summary>Menu</summary>

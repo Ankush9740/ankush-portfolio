@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { notFound } from "next/navigation";
@@ -40,11 +41,27 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           <ul>{project.technologies.map((item) => <li key={item}>{item}</li>)}</ul>
         </div>
       </section>
-      <section className="case-media" aria-label="Project screenshot placeholders">
-        {project.media.map((media, index) => <div key={media.label}><span>{project.number}.{index + 1}</span><strong>{media.label}</strong><small>Real screenshot to be added</small></div>)}
+      <section className={`case-media case-media-${project.slug}`} aria-label={`${project.title} screenshots`}>
+        {project.media.map((media, index) => (
+          <div key={media.label} className={`case-media-item slot-${index + 1}${media.src ? " has-image" : ""}`}>
+            {media.src ? (
+              <Image
+                className="case-media-image"
+                src={media.src}
+                alt={media.alt}
+                fill
+                sizes={project.slug === "quizloom" && index === 0 ? "100vw" : "(max-width: 820px) 100vw, 50vw"}
+              />
+            ) : (
+              <><span>{project.number}.{index + 1}</span><strong>{media.label}</strong><small>Real screenshot to be added</small></>
+            )}
+          </div>
+        ))}
       </section>
       <section className="case-links">
-        {project.links.map((link) => link.href && !link.href.startsWith("/projects") ? <a key={link.label} href={link.href}>{link.label}<ArrowUpRight /></a> : link.href ? null : <span key={link.label}>{link.label} URL not added</span>)}
+        {project.links.map((link) => link.href?.startsWith("http") ? (
+          <a key={link.label} href={link.href} target="_blank" rel="noopener noreferrer">{link.label}<ArrowUpRight /></a>
+        ) : null)}
       </section>
     </main>
   );
