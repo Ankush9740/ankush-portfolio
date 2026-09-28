@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { notFound } from "next/navigation";
-import { getProject, projects } from "@/data/projects";
+import { getProject, getProjectLinks, projects } from "@/data/projects";
 
 export function generateStaticParams() {
   return projects.map((project) => ({ slug: project.slug }));
@@ -18,6 +18,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   const { slug } = await params;
   const project = getProject(slug);
   if (!project) notFound();
+  const projectLinks = getProjectLinks(project);
 
   return (
     <main className={`case-study case-study-${project.tone}`}>
@@ -29,7 +30,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
       <section className="case-hero">
         <p>{project.category}</p>
         <h1>{project.title}</h1>
-        <div className="case-intro"><p>{project.description}</p><p>{project.summary}</p></div>
+        <div className="case-intro"><p>{project.description}</p><p>{project.secondaryDescription}</p></div>
       </section>
       <section className="case-content">
         <div>
@@ -59,7 +60,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         ))}
       </section>
       <section className="case-links">
-        {project.links.map((link) => link.href?.startsWith("http") ? (
+        {projectLinks.map((link) => link.href.startsWith("http") ? (
           <a key={link.label} href={link.href} target="_blank" rel="noopener noreferrer">{link.label}<ArrowUpRight /></a>
         ) : null)}
       </section>
