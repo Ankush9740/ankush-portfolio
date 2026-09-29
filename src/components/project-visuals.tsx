@@ -1,6 +1,5 @@
 import { ScanLine } from "lucide-react";
 import type { ComponentType } from "react";
-import type { ProjectVisualId } from "@/data/projects";
 
 export function QuizloomVisual() {
   return (
@@ -66,12 +65,23 @@ export function AutoLensVisual() {
   );
 }
 
+/**
+ * Add a custom project visual:
+ * 1. Create its dedicated component in this file (for example, FutureProjectVisual).
+ * 2. Register a unique identifier below; the registry key becomes its ProjectVisualId.
+ * 3. Use that same identifier in the project's `visual` field in projects.ts.
+ * 4. Add uniquely prefixed styles/animations in globals.css (for example, `.future-project-*`).
+ */
 const projectVisuals = {
   quizloom: QuizloomVisual,
   autolens: AutoLensVisual,
-} satisfies Record<ProjectVisualId, ComponentType>;
+} satisfies Record<string, ComponentType>;
+
+export type ProjectVisualId = keyof typeof projectVisuals;
 
 export function ProjectVisual({ visual }: { visual: ProjectVisualId }) {
   const Visual = projectVisuals[visual];
+  if (!Visual) return null;
+
   return <Visual />;
 }

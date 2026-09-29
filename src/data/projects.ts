@@ -1,4 +1,4 @@
-export type ProjectVisualId = "quizloom" | "autolens";
+import type { ProjectVisualId } from "@/components/project-visuals";
 
 export type ProjectLink = {
   label: "Live demo" | "GitHub" | "Case study";
