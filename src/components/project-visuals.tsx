@@ -65,6 +65,39 @@ export function AutoLensVisual() {
   );
 }
 
+export function ApiSentinelVisual() {
+  return (
+    <div
+      className="api-sentinel-visual"
+      role="img"
+      aria-label="API Sentinel sending a GET request and validating a successful JSON response"
+    >
+      <div className="api-sentinel-request">
+        <span className="api-sentinel-method">GET</span>
+        <code className="api-sentinel-url">/api/users/1</code>
+        <span className="api-sentinel-send">Send</span>
+      </div>
+      <span className="api-sentinel-progress" aria-hidden="true"><i /></span>
+      <div className="api-sentinel-response">
+        <div className="api-sentinel-response-meta">
+          <strong>200 OK</strong>
+          <span>23 ms</span>
+        </div>
+        <code className="api-sentinel-json" aria-hidden="true">
+          <span>{"{"}</span>
+          <span>&nbsp;&nbsp;&quot;id&quot;: 1,</span>
+          <span>&nbsp;&nbsp;&quot;status&quot;: &quot;active&quot;</span>
+          <span>{"}"}</span>
+        </code>
+        <div className="api-sentinel-assertion">
+          <span><i>✓</i> Status = 200</span>
+          <strong>1/1 passed</strong>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /**
  * Add a custom project visual:
  * 1. Create its dedicated component in this file (for example, FutureProjectVisual).
@@ -75,6 +108,7 @@ export function AutoLensVisual() {
 const projectVisuals = {
   quizloom: QuizloomVisual,
   autolens: AutoLensVisual,
+  apiSentinel: ApiSentinelVisual,
 } satisfies Record<string, ComponentType>;
 
 export type ProjectVisualId = keyof typeof projectVisuals;

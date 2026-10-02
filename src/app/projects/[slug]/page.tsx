@@ -42,17 +42,48 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           <ul>{project.technologies.map((item) => <li key={item}>{item}</li>)}</ul>
         </div>
       </section>
+      {project.caseSections?.length ? (
+        <section className="case-narrative" aria-label={`${project.title} case study details`}>
+          {project.caseSections.map((section) => (
+            <article key={section.label}>
+              <p className="label">{section.label}</p>
+              <h2>{section.title}</h2>
+              <div className="case-narrative-copy">
+                {section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+              </div>
+              {section.items?.length ? (
+                <ul>{section.items.map((item) => <li key={item}>{item}</li>)}</ul>
+              ) : null}
+            </article>
+          ))}
+        </section>
+      ) : null}
       <section className={`case-media case-media-${project.slug}`} aria-label={`${project.title} screenshots`}>
         {project.media.map((media, index) => (
-          <div key={media.label} className={`case-media-item slot-${index + 1}${media.src ? " has-image" : ""}`}>
+          <div key={media.label} className={`case-media-item slot-${index + 1}${media.src ? " has-image" : ""}${media.caption ? " has-caption" : ""}`}>
             {media.src ? (
-              <Image
-                className="case-media-image"
-                src={media.src}
-                alt={media.alt}
-                fill
-                sizes={project.slug === "quizloom" && index === 0 ? "100vw" : "(max-width: 820px) 100vw, 50vw"}
-              />
+              media.caption ? (
+                <>
+                  <span className="case-media-image-frame">
+                    <Image
+                      className="case-media-image"
+                      src={media.src}
+                      alt={media.alt}
+                      fill
+                      sizes="(max-width: 820px) 100vw, 50vw"
+                    />
+                  </span>
+                  <span className="case-media-caption"><strong>{media.label}</strong><small>{media.caption}</small></span>
+                </>
+              ) : (
+                <Image
+                  className="case-media-image"
+                  src={media.src}
+                  alt={media.alt}
+                  fill
+                  sizes={project.slug === "quizloom" && index === 0 ? "100vw" : "(max-width: 820px) 100vw, 50vw"}
+                />
+              )
             ) : (
               <><span>{project.number}.{index + 1}</span><strong>{media.label}</strong><small>Real screenshot to be added</small></>
             )}
