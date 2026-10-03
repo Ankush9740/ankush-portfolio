@@ -71,7 +71,7 @@ export function Hero({ active }: { active: boolean }) {
             data-text="ANKUSH"
             style={reducedMotion ? undefined : { x: wordX, backgroundPositionX: wordHighlight }}
             aria-label="Ankush"
-            initial={reducedMotion ? false : { y: "112%" }}
+            initial={false}
             animate={active ? { y: "0%" } : { y: "112%" }}
             transition={{ duration: 0.95, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
           >ANKUSH</motion.p>
@@ -80,7 +80,7 @@ export function Hero({ active }: { active: boolean }) {
           className="hero-mascot"
           style={reducedMotion ? undefined : { x: mascotX, y: mascotY, rotate: mascotRotate, scale: mascotScale }}
         >
-          <motion.div className="hero-mascot-entrance" initial={reducedMotion ? false : { opacity: 0, y: 90, scale: 0.92 }} animate={active ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 90, scale: 0.92 }} transition={{ duration: 1.05, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}>
+          <motion.div className="hero-mascot-entrance" initial={false} animate={active ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 90, scale: 0.92 }} transition={{ duration: 1.05, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}>
             <div className="hero-mascot-idle"><Image src="/assets/mascot.png" alt="An illustrated portrait mascot of Ankush" fill loading="eager" fetchPriority="high" sizes="(max-width: 700px) 88vw, 48vw" /></div>
           </motion.div>
         </motion.div>
@@ -89,7 +89,7 @@ export function Hero({ active }: { active: boolean }) {
       <motion.div
         className="hero-support"
         style={reducedMotion ? undefined : { opacity: supportOpacity }}
-        initial={reducedMotion ? false : "hidden"}
+        initial={false}
         animate={active ? "visible" : "hidden"}
         variants={{ visible: { transition: { delayChildren: 0.65, staggerChildren: 0.11 } }, hidden: {} }}
       >
