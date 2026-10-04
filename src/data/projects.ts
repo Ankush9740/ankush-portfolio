@@ -20,6 +20,7 @@ export type Project = {
   description: string;
   secondaryDescription: string;
   technologies: string[];
+  caseTechnologies?: string[];
   github: string;
   githubLabel?: "GitHub" | "View source";
   liveDemo?: string;
@@ -28,6 +29,7 @@ export type Project = {
   visual: ProjectVisualId;
   engineering: string[];
   media: { label: string; src: string | null; alt: string; caption?: string }[];
+  galleryType?: "desktop" | "mobile";
   caseSections?: ProjectCaseSection[];
   tone: "paper" | "charcoal";
 };
@@ -56,9 +58,73 @@ export const projects: Project[] = [
       "Concurrency and multiplayer performance improvements",
     ],
     media: [
-      { label: "Homepage / Join", src: "/projects/Quizloom/home.png", alt: "Quizloom homepage with player room-code entry" },
-      { label: "Player Quiz", src: "/projects/Quizloom/player-quiz.png", alt: "Quizloom player answer-selection screen" },
-      { label: "Host / Result", src: "/projects/Quizloom/host-result.png", alt: "Quizloom host answer-reveal and leaderboard screen" },
+      {
+        label: "Homepage / Join",
+        src: "/projects/Quizloom/home.png",
+        alt: "Quizloom homepage with player room-code entry",
+        caption:
+          "Hosts prepare live sessions while players enter a room code from the shared join surface.",
+      },
+      {
+        label: "Player Quiz",
+        src: "/projects/Quizloom/player-quiz.png",
+        alt: "Quizloom player answer-selection screen",
+        caption:
+          "Players answer against a synchronized question state with clear timing and response feedback.",
+      },
+      {
+        label: "Host / Result",
+        src: "/projects/Quizloom/host-result.png",
+        alt: "Quizloom host answer-reveal and leaderboard screen",
+        caption:
+          "Hosts reveal answers, follow live standings, and carry the room through to the final podium.",
+      },
+    ],
+    galleryType: "desktop",
+    caseSections: [
+      {
+        label: "Overview",
+        title: "A quiz room that stays in sync.",
+        paragraphs: [
+          "Quizloom is a real-time multiplayer quiz application where a host creates a room, players join with a room code, questions run live, and standings evolve throughout the session.",
+          "The central engineering challenge was not simply displaying questions. It was keeping multiple devices aligned while one authoritative game state moved the room from question to answer reveal and final results.",
+        ],
+      },
+      {
+        label: "Core experience",
+        title: "From room code to final podium.",
+        paragraphs: [
+          "A session begins with a reusable quiz set and a short room code. Players join with a name and avatar, then follow the host through synchronized questions, answer and reveal states, live standings, and a final podium.",
+        ],
+        items: [
+          "Reusable quiz sets and room-code joining",
+          "Player names and avatars",
+          "Synchronized questions and answer reveals",
+          "Live standings and final podium",
+        ],
+      },
+      {
+        label: "Real-time architecture",
+        title: "The server owns the clock.",
+        paragraphs: [
+          "Timing-sensitive behavior is driven by server-authoritative state rather than trusting each device clock. Scheduled starts and answer deadlines give every participant the same reference for countdown and reveal behavior.",
+          "Answers outside the accepted window are rejected, while Supabase Realtime distributes multiplayer state changes and supports clients returning to the current room state after hydration or reconnection.",
+        ],
+        items: [
+          "Scheduled question starts and authoritative deadlines",
+          "Early and late answer rejection",
+          "Synchronized countdown and reveal state",
+          "Hydration and reconnection support",
+        ],
+      },
+      {
+        label: "Ranking",
+        title: "Equal scores need a fair winner.",
+        paragraphs: [
+          "Total score remains the primary ranking signal. When scores are equal, cumulative response time across correctly answered questions becomes the tie-break, with the lower total ranked first.",
+          "The calculation uses authoritative server timestamps. Incorrect or unanswered questions do not improve a player's tie-break time.",
+        ],
+      },
     ],
     tone: "paper",
   },
@@ -72,19 +138,96 @@ export const projects: Project[] = [
     secondaryDescription:
       "A Compose-based mobile flow connects photo selection and camera capture to a small Node.js service for careful experimentation with local vision and language models.",
     technologies: ["Kotlin", "Jetpack Compose", "Material 3", "MVVM", "Coroutines", "Node.js", "Ollama"],
+    caseTechnologies: [
+      "Kotlin",
+      "Jetpack Compose",
+      "Material 3",
+      "MVVM",
+      "Coroutines",
+      "Gemma 3n — on-device",
+      "Node.js / Ollama / qwen2.5vl — experimental",
+    ],
     github: "https://github.com/Ankush9740/AutoLens",
     caseStudy: "/projects/autolens",
     visual: "autolens",
     engineering: [
-      "Photo Picker and camera capture flows",
+      "Photo Picker and TakePicture camera flows with FileProvider",
+      "EXIF orientation correction before analysis",
       "MVVM state management with coroutines",
-      "Node.js bridge for local inference",
-      "Local vision and LLM experimentation",
-      "Clear separation between mobile UI and AI service",
+      "Explicit loading, empty, error, and result states",
+      "Controlled mock mode for predictable development",
+      "Experimental Node.js/Ollama path and verified on-device Gemma 3n variant",
     ],
     media: [
-      { label: "Home / Capture", src: "/projects/AutoLens/home.jpeg", alt: "AutoLens home screen with camera and gallery capture options" },
-      { label: "AI Result", src: "/projects/AutoLens/recognition.jpeg", alt: "AutoLens recognition result identifying a BMW iX" },
+      {
+        label: "Home / Capture",
+        src: "/projects/AutoLens/home.jpeg",
+        alt: "AutoLens home screen with camera and gallery capture options",
+        caption:
+          "Camera and gallery entry points keep image acquisition clear before analysis begins.",
+      },
+      {
+        label: "AI Result",
+        src: "/projects/AutoLens/recognition.jpeg",
+        alt: "AutoLens recognition result identifying a BMW iX",
+        caption:
+          "A structured result returns recognized vehicle details after the selected image is analyzed.",
+      },
+    ],
+    galleryType: "mobile",
+    caseSections: [
+      {
+        label: "Overview",
+        title: "Vehicle recognition from a single image.",
+        paragraphs: [
+          "AutoLens is an Android application that lets a user capture or select a vehicle image and receive structured details such as make, model, and colour when the recognition pipeline supports them.",
+          "The project treats image acquisition, analysis, and result presentation as one mobile product flow rather than a model demo placed inside an app shell.",
+        ],
+      },
+      {
+        label: "Core experience",
+        title: "Capture. Analyze. Understand.",
+        paragraphs: [
+          "Users can take a photo or choose one through the system Photo Picker, preview the image, replace or remove it, and start analysis from a clear prepared state.",
+        ],
+        items: [
+          "Camera capture and Photo Picker",
+          "Image preview, retake, replace, and remove actions",
+          "Visible analysis state",
+          "Structured result with clear empty and error states",
+        ],
+      },
+      {
+        label: "Android architecture",
+        title: "Built as a real mobile application.",
+        paragraphs: [
+          "The interface is built in Kotlin with Jetpack Compose and Material 3, with MVVM separating screen state from image acquisition and inference work. Coroutines keep longer operations away from the main UI flow.",
+          "TakePicture with FileProvider and the system Photo Picker handle reliable input paths, while EXIF orientation correction normalizes captured images before analysis.",
+        ],
+      },
+      {
+        label: "Inference",
+        title: "From cloud experiments to local intelligence.",
+        paragraphs: [
+          "Initial Gemini-backed experiments encountered model availability and service reliability problems. A controlled mock mode kept interface work predictable while inference paths evolved.",
+          "Development also explored a local Ollama and qwen2.5vl path. That experiment is distinct from the working on-device Gemma 3n variant that was later implemented and verified.",
+        ],
+      },
+      {
+        label: "Reliability",
+        title: "Failure is part of the interface.",
+        paragraphs: [
+          "The screen model explicitly represents loading, empty, error, and result states. Each state gives the Compose UI a deliberate response instead of leaving users between image selection and recognition.",
+          "A controlled mock path also made those transitions testable without depending on an available remote or local model service during every development session.",
+        ],
+      },
+      {
+        label: "Local intelligence",
+        title: "Less dependence on external services.",
+        paragraphs: [
+          "The on-device Gemma 3n variant moves the working recognition path toward local execution and away from external API availability. Earlier Gemini and Ollama integrations remain documented as experiments rather than being presented as one production backend.",
+        ],
+      },
     ],
     tone: "charcoal",
   },

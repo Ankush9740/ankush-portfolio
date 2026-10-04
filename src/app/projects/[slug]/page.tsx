@@ -39,7 +39,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         </div>
         <div>
           <p className="label">Technology</p>
-          <ul>{project.technologies.map((item) => <li key={item}>{item}</li>)}</ul>
+          <ul>{(project.caseTechnologies ?? project.technologies).map((item) => <li key={item}>{item}</li>)}</ul>
         </div>
       </section>
       {project.caseSections?.length ? (
@@ -58,7 +58,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           ))}
         </section>
       ) : null}
-      <section className={`case-media case-media-${project.slug}`} aria-label={`${project.title} screenshots`}>
+      <section className={`case-media case-media-${project.slug}${project.galleryType ? ` case-gallery-${project.galleryType}` : ""}`} aria-label={`${project.title} screenshots`}>
         {project.media.map((media, index) => (
           <div key={media.label} className={`case-media-item slot-${index + 1}${media.src ? " has-image" : ""}${media.caption ? " has-caption" : ""}`}>
             {media.src ? (
@@ -70,7 +70,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
                       src={media.src}
                       alt={media.alt}
                       fill
-                      sizes="(max-width: 820px) 100vw, 50vw"
+                      sizes={project.galleryType === "mobile" ? "(max-width: 820px) 100vw, 360px" : "(max-width: 820px) 100vw, 50vw"}
                     />
                   </span>
                   <span className="case-media-caption"><strong>{media.label}</strong><small>{media.caption}</small></span>
