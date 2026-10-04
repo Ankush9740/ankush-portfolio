@@ -17,7 +17,7 @@ export function ProjectsSection() {
     <section id="work" className="projects-section">
       <div className="section-kicker"><span>03</span><span>Selected work</span></div>
       <FadeIn className="projects-heading">
-        <p className="label">Three flagship builds</p>
+        <p className="label">{projectCount} flagship builds</p>
         <h2>SELECTED WORK</h2>
       </FadeIn>
       <div ref={showcaseRef} className={`project-showcase${reducedMotion ? " reduced-motion" : ""}`} style={showcaseStyle}>

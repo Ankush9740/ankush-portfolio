@@ -1,7 +1,7 @@
 import type { ProjectVisualId } from "@/components/project-visuals";
 
 export type ProjectLink = {
-  label: "Live demo" | "GitHub" | "Case study";
+  label: "Live demo" | "Download for Windows" | "GitHub" | "View source" | "Case study";
   href: string;
 };
 
@@ -21,7 +21,9 @@ export type Project = {
   secondaryDescription: string;
   technologies: string[];
   github: string;
+  githubLabel?: "GitHub" | "View source";
   liveDemo?: string;
+  download?: string;
   caseStudy: string;
   visual: ProjectVisualId;
   engineering: string[];
@@ -198,6 +200,133 @@ export const projects: Project[] = [
     ],
     tone: "paper",
   },
+  {
+    number: "04",
+    slug: "filepilot",
+    title: "FilePilot",
+    category: "Windows / Local-first",
+    description: "Local-first Windows file intelligence.",
+    secondaryDescription:
+      "Scan crowded folders, surface exact duplicates, understand storage, and organize files through previewed, reversible operations.",
+    technologies: ["Python", "PySide6", "SQLite", "SHA-256"],
+    github: "https://github.com/Ankush9740/FilePilot",
+    githubLabel: "View source",
+    download: "https://github.com/Ankush9740/FilePilot/releases/tag/v1.0.0",
+    caseStudy: "/projects/filepilot",
+    visual: "filepilot",
+    engineering: [
+      "Recursive read-only folder scanning",
+      "Exact duplicate verification with SHA-256",
+      "Previewed, conflict-aware organization with no overwrite",
+      "Persistent operation history and verified Undo",
+      "Background workers for responsive local analysis",
+      "PyInstaller and Inno Setup packaging for Windows x64",
+    ],
+    media: [
+      {
+        label: "Dashboard",
+        src: "/projects/FilePilot/filepilot-dashboard.png",
+        alt: "FilePilot dashboard summarizing a locally scanned Windows folder",
+        caption:
+          "The dashboard turns a crowded folder into a local, readable overview before any files are changed.",
+      },
+      {
+        label: "Duplicate review",
+        src: "/projects/FilePilot/filepilot-duplicates.png",
+        alt: "FilePilot duplicate review showing exact duplicate file groups",
+        caption:
+          "Exact duplicate groups are verified with file size and SHA-256 hashing before they are surfaced for review.",
+      },
+      {
+        label: "Organize preview",
+        src: "/projects/FilePilot/filepilot-organize.png",
+        alt: "FilePilot organization preview showing planned file moves",
+        caption:
+          "Organization stays preview-first, conflict-aware, and conservative: proposed moves are visible before execution.",
+      },
+      {
+        label: "History and Undo",
+        src: "/projects/FilePilot/filepilot-history.png",
+        alt: "FilePilot operation history with verified Undo controls",
+        caption:
+          "Persistent operation history records completed moves and provides a verified path to undo them safely.",
+      },
+    ],
+    caseSections: [
+      {
+        label: "Problem",
+        title: "Understand first. Change second.",
+        paragraphs: [
+          "Crowded Windows folders make it difficult to see where storage is going, which files are truly duplicated, and what an organization pass will change.",
+          "FilePilot begins with inspection. It builds a clear local inventory before offering any operation that changes the filesystem.",
+        ],
+      },
+      {
+        label: "Local-first architecture",
+        title: "Files stay on the machine.",
+        paragraphs: [
+          "FilePilot is a Python 3.11 desktop application built with PySide6. Scans, classification, duplicate verification, history, and settings run locally without an account, telemetry, file uploads, or cloud processing.",
+          "SQLite stores persistent operation history while background workers keep large scans responsive in the desktop interface.",
+        ],
+      },
+      {
+        label: "Folder intelligence",
+        title: "See what a folder contains.",
+        paragraphs: [
+          "Recursive read-only scans gather file counts, sizes, categories, storage distribution, and largest-file insights so the dashboard can explain a folder before the user organizes it.",
+          "The same local index supports search, filtering, sorting, and focused file inspection without introducing a cloud dependency.",
+        ],
+      },
+      {
+        label: "Exact duplicate detection",
+        title: "Verify bytes, not filenames.",
+        paragraphs: [
+          "Duplicate candidates are narrowed by file size, then verified with SHA-256. Matching names alone never qualify files as exact duplicates.",
+          "The review surface groups verified matches and keeps deletion or organization decisions with the user.",
+        ],
+      },
+      {
+        label: "Safe organization",
+        title: "Preview every move.",
+        paragraphs: [
+          "FilePilot creates a move plan before touching the filesystem. Category destinations, conflicts, and expected results remain visible for review.",
+          "Execution is conflict-aware and never overwrites an existing destination file. Failures are isolated and reported instead of silently forcing a partial plan.",
+        ],
+      },
+      {
+        label: "Reversible operations",
+        title: "A verified way back.",
+        paragraphs: [
+          "Completed organization operations are persisted to history with the source and destination required for reversal.",
+          "Undo verifies the current filesystem state before moving files back, prevents an old record from overwriting newer work, and conservatively removes only empty directories created by that operation. Completed history can be cleared without affecting files.",
+        ],
+      },
+      {
+        label: "Engineering / safety",
+        title: "Conservative by construction.",
+        paragraphs: [
+          "Read-only scanning is separated from filesystem mutation, long work runs away from the UI thread, and organization executes from an explicit previewed plan.",
+        ],
+        items: [
+          "No cloud upload or external file processing",
+          "No overwrite during organization or Undo",
+          "Path and protection checks constrain operations to the selected working folder",
+          "Bounded, reported failures instead of hidden mutation",
+          "Persistent SQLite history for auditable operations",
+        ],
+      },
+      {
+        label: "Shipping / verification",
+        title: "A real Windows release.",
+        paragraphs: [
+          "Version 1.0.0 ships as a Windows x64 installer assembled with PyInstaller and Inno Setup. Its Python and Qt runtime is bundled, so users do not need Python installed.",
+          "The release page includes FilePilot-Setup-1.0.0.exe. The installer is currently unsigned, so Windows SmartScreen may display an Unknown Publisher warning.",
+          "Verification completed with 149 passing tests and one privilege-dependent symbolic-link test skipped. The packaged app was checked across all six pages and Light, Dark, and System themes; the installer was exercised through install, launch, and uninstall; and user data stored separately from the installation was preserved after uninstall.",
+        ],
+      },
+    ],
+    tone: "paper",
+  },
 ];
 
 export function getProject(slug: string) {
@@ -207,7 +336,10 @@ export function getProject(slug: string) {
 export function getProjectLinks(project: Project): ProjectLink[] {
   return [
     ...(project.liveDemo ? [{ label: "Live demo" as const, href: project.liveDemo }] : []),
-    { label: "GitHub", href: project.github },
+    ...(project.download
+      ? [{ label: "Download for Windows" as const, href: project.download }]
+      : []),
+    { label: project.githubLabel ?? "GitHub", href: project.github },
     { label: "Case study", href: project.caseStudy },
   ];
 }

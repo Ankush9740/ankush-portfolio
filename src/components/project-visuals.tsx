@@ -1,4 +1,4 @@
-import { ScanLine } from "lucide-react";
+import { Check, FileText, Folder, RotateCcw, ScanLine } from "lucide-react";
 import type { ComponentType } from "react";
 
 export function QuizloomVisual() {
@@ -98,6 +98,48 @@ export function ApiSentinelVisual() {
   );
 }
 
+export function FilePilotVisual() {
+  return (
+    <div
+      className="filepilot-visual"
+      role="img"
+      aria-label="FilePilot scanning a local folder, finding an exact duplicate, and preparing a reversible organization plan"
+    >
+      <div className="filepilot-titlebar">
+        <span className="filepilot-window-controls" aria-hidden="true"><i /><i /><i /></span>
+        <strong>FILEPILOT</strong>
+        <small>LOCAL / WINDOWS</small>
+      </div>
+      <div className="filepilot-workspace">
+        <div className="filepilot-folder">
+          <Folder aria-hidden="true" strokeWidth={1.4} />
+          <span><small>Unsorted folder</small><strong>248 files</strong></span>
+        </div>
+        <span className="filepilot-scan-track" aria-hidden="true"><i /></span>
+        <div className="filepilot-files" aria-hidden="true">
+          <span className="filepilot-file filepilot-file-one"><FileText strokeWidth={1.45} /><i>DOC</i></span>
+          <span className="filepilot-file filepilot-file-two"><FileText strokeWidth={1.45} /><i>IMG</i></span>
+          <span className="filepilot-file filepilot-file-three"><FileText strokeWidth={1.45} /><i>ZIP</i></span>
+          <span className="filepilot-file filepilot-file-four"><FileText strokeWidth={1.45} /><i>PDF</i></span>
+        </div>
+        <div className="filepilot-categories">
+          <span><i />Documents</span>
+          <span><i />Media</span>
+          <span><i />Archives</span>
+        </div>
+        <div className="filepilot-duplicate">
+          <span className="filepilot-duplicate-files" aria-hidden="true"><FileText /><FileText /></span>
+          <span><small>Exact duplicate</small><strong>SHA-256 match</strong></span>
+        </div>
+      </div>
+      <div className="filepilot-status">
+        <span className="filepilot-plan"><Check aria-hidden="true" />Safe plan ready</span>
+        <span className="filepilot-undo"><RotateCcw aria-hidden="true" />Undo verified</span>
+      </div>
+    </div>
+  );
+}
+
 /**
  * Add a custom project visual:
  * 1. Create its dedicated component in this file (for example, FutureProjectVisual).
@@ -109,6 +151,7 @@ const projectVisuals = {
   quizloom: QuizloomVisual,
   autolens: AutoLensVisual,
   apiSentinel: ApiSentinelVisual,
+  filepilot: FilePilotVisual,
 } satisfies Record<string, ComponentType>;
 
 export type ProjectVisualId = keyof typeof projectVisuals;
