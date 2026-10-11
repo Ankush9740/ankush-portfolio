@@ -1,4 +1,4 @@
-import { Check, FileText, Folder, RotateCcw, ScanLine } from "lucide-react";
+import { Camera, CarFront, Check, FileText, Folder, RotateCcw, ScanLine } from "lucide-react";
 import type { ComponentType } from "react";
 
 export function QuizloomVisual() {
@@ -28,39 +28,38 @@ export function QuizloomVisual() {
   );
 }
 
-export function AutoLensVisual() {
+export function AutrixVisual() {
   return (
     <div
-      className="project-media-grid project-media-grid-autolens autolens-identity"
+      className="autrix-visual"
       role="img"
-      aria-label="AutoLens camera image passing through AI recognition into vehicle details"
+      aria-label="Autrix scanning a vehicle photograph and identifying a yellow Audi R8"
     >
-      <span className="autolens-connection autolens-connection-camera" aria-hidden="true" />
-      <span className="autolens-connection autolens-connection-vehicle" aria-hidden="true" />
-      <span className="autolens-connection autolens-connection-ai" aria-hidden="true" />
-      <span className="autolens-connection autolens-connection-result" aria-hidden="true" />
+      <div className="autrix-input-panel">
+        <span className="autrix-panel-heading"><strong>AUTRIX</strong><small>Visual input</small></span>
+        <span className="autrix-vehicle-preview" aria-hidden="true">
+          <i className="autrix-focus-corners" />
+          <CarFront className="autrix-car-icon" strokeWidth={1.25} />
+          <i className="autrix-scan-line" />
+        </span>
+        <span className="autrix-input-ready"><Camera aria-hidden="true" />Vehicle photograph</span>
+      </div>
 
-      <span className="autolens-node autolens-camera-node">
-        <small>Input</small>
-        <strong>Camera</strong>
-      </span>
-      <span className="autolens-node autolens-ai-node">
-        <small>Engine</small>
-        <strong>AI / Active</strong>
-      </span>
-      <span className="autolens-scanner" aria-hidden="true">
-        <ScanLine className="autolens-scan-icon" strokeWidth={1.25} />
-        <i className="autolens-scan-beam" />
-      </span>
-      <span className="autolens-node autolens-vehicle-node">
-        <small>Detected</small>
-        <strong>Vehicle</strong>
-      </span>
-      <span className="autolens-node autolens-result-node">
-        <span><small>Make</small><strong>BMW</strong></span>
-        <span><small>Model</small><strong>iX</strong></span>
-        <span><small>Colour</small><strong>Blue</strong></span>
-      </span>
+      <div className="autrix-processing" aria-hidden="true">
+        <span className="autrix-transfer-line"><i /></span>
+        <span className="autrix-processing-state"><ScanLine /><small>Qwen Vision</small><strong>Analyzing</strong></span>
+      </div>
+
+      <div className="autrix-result-panel">
+        <span className="autrix-result-state"><Check aria-hidden="true" />Vehicle identified</span>
+        <strong className="autrix-result-name">Audi R8</strong>
+        <span className="autrix-result-fields">
+          <span><small>Make</small><strong>Audi</strong></span>
+          <span><small>Model</small><strong>R8</strong></span>
+          <span><small>Colour</small><strong>Yellow</strong></span>
+        </span>
+        <span className="autrix-result-complete"><i />Estimate ready</span>
+      </div>
     </div>
   );
 }
@@ -149,7 +148,7 @@ export function FilePilotVisual() {
  */
 const projectVisuals = {
   quizloom: QuizloomVisual,
-  autolens: AutoLensVisual,
+  autrix: AutrixVisual,
   apiSentinel: ApiSentinelVisual,
   filepilot: FilePilotVisual,
 } satisfies Record<string, ComponentType>;

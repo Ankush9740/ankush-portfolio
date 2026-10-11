@@ -21,7 +21,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   const projectLinks = getProjectLinks(project);
 
   return (
-    <main className={`case-study case-study-${project.tone}`}>
+    <main className={`case-study case-study-${project.tone} case-study-project-${project.slug}`}>
       <header className="case-header">
         <Link href="/#work"><ArrowLeft size={16} /> Back to selected work</Link>
         <span>ANKUSH.</span>
@@ -58,6 +58,13 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           ))}
         </section>
       ) : null}
+      {project.mediaHeading ? (
+        <header id={`${project.slug}-screenshots`} className={`case-media-intro case-media-intro-${project.slug}`}>
+          <p className="label">Screenshot showcase</p>
+          <h2>{project.mediaHeading}</h2>
+          {project.mediaDescription ? <p>{project.mediaDescription}</p> : null}
+        </header>
+      ) : null}
       <section className={`case-media case-media-${project.slug}${project.galleryType ? ` case-gallery-${project.galleryType}` : ""}`} aria-label={`${project.title} screenshots`}>
         {project.media.map((media, index) => (
           <div key={media.label} className={`case-media-item slot-${index + 1}${media.src ? " has-image" : ""}${media.caption ? " has-caption" : ""}`}>
@@ -70,7 +77,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
                       src={media.src}
                       alt={media.alt}
                       fill
-                      sizes={project.galleryType === "mobile" ? "(max-width: 820px) 100vw, 360px" : "(max-width: 820px) 100vw, 50vw"}
+                      sizes={project.slug === "autrix" ? "(max-width: 600px) 100vw, (max-width: 820px) 50vw, 33vw" : project.galleryType === "mobile" ? "(max-width: 820px) 100vw, 360px" : "(max-width: 820px) 100vw, 50vw"}
                     />
                   </span>
                   <span className="case-media-caption"><strong>{media.label}</strong><small>{media.caption}</small></span>

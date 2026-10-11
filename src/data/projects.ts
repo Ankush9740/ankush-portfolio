@@ -1,7 +1,7 @@
 import type { ProjectVisualId } from "@/components/project-visuals";
 
 export type ProjectLink = {
-  label: "Live demo" | "Download for Windows" | "GitHub" | "View source" | "Case study";
+  label: "Live demo" | "Download for Windows" | "GitHub" | "View source" | "Private repository" | "Case study";
   href: string;
 };
 
@@ -22,13 +22,15 @@ export type Project = {
   technologies: string[];
   caseTechnologies?: string[];
   github: string;
-  githubLabel?: "GitHub" | "View source";
+  githubLabel?: "GitHub" | "View source" | "Private repository";
   liveDemo?: string;
   download?: string;
   caseStudy: string;
   visual: ProjectVisualId;
   engineering: string[];
   media: { label: string; src: string | null; alt: string; caption?: string }[];
+  mediaHeading?: string;
+  mediaDescription?: string;
   galleryType?: "desktop" | "mobile";
   caseSections?: ProjectCaseSection[];
   tone: "paper" | "charcoal";
@@ -130,102 +132,118 @@ export const projects: Project[] = [
   },
   {
     number: "02",
-    slug: "autolens",
-    title: "AutoLens",
-    category: "Android / AI",
+    slug: "autrix",
+    title: "Autrix",
+    category: "AI-powered Android application",
     description:
-      "An AI-assisted Android car recognition application built as a practical mobile development and local-AI experiment.",
+      "Visual Vehicle Intelligence from a single photograph.",
     secondaryDescription:
-      "A Compose-based mobile flow connects photo selection and camera capture to a small Node.js service for careful experimentation with local vision and language models.",
-    technologies: ["Kotlin", "Jetpack Compose", "Material 3", "MVVM", "Coroutines", "Node.js", "Ollama"],
-    caseTechnologies: [
-      "Kotlin",
-      "Jetpack Compose",
-      "Material 3",
-      "MVVM",
-      "Coroutines",
-      "Gemma 3n — on-device",
-      "Node.js / Ollama / qwen2.5vl — experimental",
-    ],
-    github: "https://github.com/Ankush9740/AutoLens",
-    caseStudy: "/projects/autolens",
-    visual: "autolens",
+      "A native Android experience connects camera and gallery input to cloud-hosted vision inference without requiring users to configure API keys or run a local backend.",
+    technologies: ["Kotlin", "Jetpack Compose", "Material 3", "Cloudflare Workers", "Groq API", "Qwen Vision", "Gradle"],
+    github: "https://github.com/Ankush9740/Autrix",
+    githubLabel: "GitHub",
+    caseStudy: "/projects/autrix",
+    visual: "autrix",
     engineering: [
-      "Photo Picker and TakePicture camera flows with FileProvider",
-      "EXIF orientation correction before analysis",
-      "MVVM state management with coroutines",
-      "Explicit loading, empty, error, and result states",
-      "Controlled mock mode for predictable development",
-      "Experimental Node.js/Ollama path and verified on-device Gemma 3n variant",
+      "CameraX capture and system Photo Picker image input",
+      "Bounded image preparation before upload",
+      "Cloudflare Worker intermediary with the provider credential kept out of the APK",
+      "Groq-hosted Qwen Vision inference",
+      "Versioned Worker and Android response validation",
+      "Explicit preparing, analyzing, error, retry, and result states",
     ],
     media: [
       {
-        label: "Home / Capture",
-        src: "/projects/AutoLens/home.jpeg",
-        alt: "AutoLens home screen with camera and gallery capture options",
-        caption:
-          "Camera and gallery entry points keep image acquisition clear before analysis begins.",
+        label: "Audi R8 Recognition",
+        src: "/projects/Autrix/autrix-audi-r8.jpeg",
+        alt: "Autrix recognition result identifying a yellow Audi R8",
+        caption: "Manufacturer, model, exterior colour, confidence, and interpretation notes.",
       },
       {
-        label: "AI Result",
-        src: "/projects/AutoLens/recognition.jpeg",
-        alt: "AutoLens recognition result identifying a BMW iX",
-        caption:
-          "A structured result returns recognized vehicle details after the selected image is analyzed.",
+        label: "Capture or Choose",
+        src: "/projects/Autrix/autrix-home.jpeg",
+        alt: "Autrix home screen with camera and gallery image options",
+        caption: "Start with a vehicle photograph from the camera or device gallery.",
+      },
+      {
+        label: "Toyota Fortuner Recognition",
+        src: "/projects/Autrix/autrix-toyota-fortuner.jpeg",
+        alt: "Autrix recognition result identifying a white Toyota Fortuner",
+        caption: "Structured recognition with visual confidence and relevant considerations.",
       },
     ],
     galleryType: "mobile",
     caseSections: [
       {
         label: "Overview",
-        title: "Vehicle recognition from a single image.",
+        title: "Autrix — Visual Vehicle Intelligence.",
         paragraphs: [
-          "AutoLens is an Android application that lets a user capture or select a vehicle image and receive structured details such as make, model, and colour when the recognition pipeline supports them.",
-          "The project treats image acquisition, analysis, and result presentation as one mobile product flow rather than a model demo placed inside an app shell.",
+          "Autrix is an AI-powered Android application that transforms a vehicle photograph into a structured recognition result.",
+          "It combines a native Kotlin and Jetpack Compose experience with cloud-hosted vision inference, keeping image capture, analysis, and result presentation inside one focused mobile flow.",
         ],
       },
       {
-        label: "Core experience",
-        title: "Capture. Analyze. Understand.",
+        label: "The problem",
+        title: "An unfamiliar car should not require expert knowledge.",
         paragraphs: [
-          "Users can take a photo or choose one through the system Photo Picker, preview the image, replace or remove it, and start analysis from a clear prepared state.",
+          "Recognizing an unfamiliar vehicle's manufacturer and model from a photograph can be difficult without prior automotive knowledge or a manual search through vehicle databases.",
+          "Autrix explores how visual AI can make that identification process approachable through a mobile-first interaction.",
+        ],
+      },
+      {
+        label: "The solution",
+        title: "One photograph. A structured estimate.",
+        paragraphs: [
+          "Users capture a vehicle with the camera or select an existing image, then receive an AI-generated estimate presented as clear, readable vehicle details.",
+        ],
+        items: ["Manufacturer", "Model", "Exterior colour", "Visual confidence", "Relevant interpretation notes"],
+      },
+      {
+        label: "Architecture",
+        title: "A separated path from Android to vision inference.",
+        paragraphs: [
+          "The Android client prepares a bounded image and sends it over HTTPS to a hosted Cloudflare Worker. The Worker validates the request, communicates with Groq's Qwen vision model, validates the model response, and returns the versioned result contract to the app.",
+          "This separation keeps the Groq credential in the Worker rather than distributing it inside the Android application.",
         ],
         items: [
-          "Camera capture and Photo Picker",
-          "Image preview, retake, replace, and remove actions",
-          "Visible analysis state",
-          "Structured result with clear empty and error states",
+          "1 — Capture or select a vehicle image",
+          "2 — Prepare the image for analysis",
+          "3 — Send it to the hosted Cloudflare Worker",
+          "4 — Invoke Groq-hosted Qwen Vision",
+          "5 — Validate and return structured vehicle data",
+          "6 — Present the result in the Android interface",
         ],
       },
       {
-        label: "Android architecture",
-        title: "Built as a real mobile application.",
+        label: "Engineering and implementation",
+        title: "Native Android meets a serverless vision backend.",
         paragraphs: [
-          "The interface is built in Kotlin with Jetpack Compose and Material 3, with MVVM separating screen state from image acquisition and inference work. Coroutines keep longer operations away from the main UI flow.",
-          "TakePicture with FileProvider and the system Photo Picker handle reliable input paths, while EXIF orientation correction normalizes captured images before analysis.",
+          "Kotlin, Jetpack Compose, and Material 3 form the native interface. CameraX and the system Photo Picker provide image input, while the preparation pipeline corrects orientation, constrains image dimensions, and creates a bounded upload.",
+          "The Cloudflare Worker applies request validation before calling Groq. Both the Worker and Android client validate the versioned response contract, and the application exposes preparing, analyzing, retryable error, and result states rather than hiding network or model failures.",
         ],
       },
       {
-        label: "Inference",
-        title: "From cloud experiments to local intelligence.",
+        label: "Design approach",
+        title: "Clear input. Readable evidence. Responsible estimates.",
         paragraphs: [
-          "Initial Gemini-backed experiments encountered model availability and service reliability problems. A controlled mock mode kept interface work predictable while inference paths evolved.",
-          "Development also explored a local Ollama and qwen2.5vl path. That experiment is distinct from the working on-device Gemma 3n variant that was later implemented and verified.",
+          "The light-themed interface uses a clear hierarchy between input and result screens. Camera and gallery actions stay prominent, while recognition details are separated into manufacturer, model, colour, confidence, and considerations.",
+          "The wording frames results as visual estimates so uncertain or ambiguous recognition is presented responsibly rather than as authoritative vehicle identification.",
         ],
       },
       {
-        label: "Reliability",
-        title: "Failure is part of the interface.",
+        label: "Challenges and solutions",
+        title: "Turn an AI response into a dependable product flow.",
         paragraphs: [
-          "The screen model explicitly represents loading, empty, error, and result states. Each state gives the Compose UI a deliberate response instead of leaving users between image selection and recognition.",
-          "A controlled mock path also made those transitions testable without depending on an available remote or local model service during every development session.",
+          "The project connects a native Android application to a cloud vision model without placing the provider credential in the APK. A Cloudflare Worker owns that integration boundary and returns a narrowly defined public contract.",
+          "Model output is converted into validated fields and bounded warnings before it reaches the interface. Image limits, explicit failure states, and responsive Compose screens keep the experience understandable across different devices and imperfect inputs.",
         ],
       },
       {
-        label: "Local intelligence",
-        title: "Less dependence on external services.",
+        label: "Outcome",
+        title: "A working cloud-connected Android AI application.",
         paragraphs: [
-          "The on-device Gemma 3n variant moves the working recognition path toward local execution and away from external API availability. Earlier Gemini and Ollama integrations remain documented as experiments rather than being presented as one production backend.",
+          "Autrix brings camera and gallery input, hosted vehicle recognition, structured results, visual confidence, and interpretation notes together in one native Android experience.",
+          "Building it connected Android product development, serverless backend infrastructure, versioned data contracts, and multimodal AI integration without presenting cloud inference as an offline or fully on-device capability.",
         ],
       },
     ],
