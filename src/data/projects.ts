@@ -371,7 +371,7 @@ export const projects: Project[] = [
       "Scan crowded folders, surface exact duplicates, understand storage, and organize files through previewed, reversible operations.",
     technologies: ["Python", "PySide6", "SQLite", "SHA-256"],
     github: "https://github.com/Ankush9740/FilePilot",
-    githubLabel: "View source",
+    githubLabel: "GitHub",
     download: "https://github.com/Ankush9740/FilePilot/releases/tag/v1.0.0",
     caseStudy: "/projects/filepilot",
     visual: "filepilot",
