@@ -6,7 +6,6 @@ build/
 *.log
 .env*
 !.env.example
-AGENTS.md
 CLAUDE.md
 Reference/
 *.tsbuildinfo
