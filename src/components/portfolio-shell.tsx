@@ -10,7 +10,6 @@ import { SkillsSection } from "@/components/skills-section";
 import { RecognitionSection } from "@/components/recognition-section";
 import { BuildLabSection } from "@/components/build-lab-section";
 import { ContactFooter } from "@/components/contact-footer";
-import { CustomCursor } from "@/components/custom-cursor";
 import { siteConfig } from "@/data/site";
 import { PORTFOLIO_INTRO_STORAGE_KEY } from "@/lib/portfolio-intro";
 
@@ -71,7 +70,6 @@ export function PortfolioShell({ year }: { year: number }) {
         {siteConfig.sectionVisibility.recognition && <RecognitionSection />}
         {siteConfig.sectionVisibility.contact && <ContactFooter year={year} />}
       </main>
-      <CustomCursor />
     </>
   );
 }

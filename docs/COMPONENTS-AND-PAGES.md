@@ -8,7 +8,7 @@ Start with [AGENTS.md](../AGENTS.md) for working rules. See [Project Architectur
 
 | Route or file | Implementation | Responsibilities |
 | --- | --- | --- |
-| All routes | [`src/app/layout.tsx`](../src/app/layout.tsx), `RootLayout({ children })` | Loads Inter and Space Grotesk with `next/font/google`, imports the global stylesheet, sets base metadata/favicon, and installs the homepage session-intro bootstrap script. It does not render a shared navbar or footer around case studies. |
+| All routes | [`src/app/layout.tsx`](../src/app/layout.tsx), `RootLayout({ children })` | Loads Inter and Space Grotesk with `next/font/google`, imports the global stylesheet, sets base metadata/favicon, installs the homepage session-intro bootstrap script, and mounts one persistent `CustomCursor` directly under `body` outside route content. It does not render a shared navbar or footer around case studies. |
 | `/` | [`src/app/page.tsx`](../src/app/page.tsx), `Home()` | Server entry point; derives the UTC year and passes it to `PortfolioShell`. |
 | `/projects/quizloom` | [`src/app/projects/[slug]/page.tsx`](../src/app/projects/%5Bslug%5D/page.tsx) | Shared case-study template populated from the Quizloom object. |
 | `/projects/autrix` | Same dynamic route | Autrix data and scoped gallery/case-study styles. |
@@ -33,7 +33,7 @@ Homepage navigation uses fragment anchors: `#top`, `#about`, `#work`, `#skills`,
 7. `RecognitionSection`
 8. `ContactFooter`
 
-All optional sections currently have `true` visibility flags in [`src/data/site.ts`](../src/data/site.ts). The projects flag also controls the marquee. Hero and the custom cursor are not controlled by those flags. Navigation is a separate static array; hiding a section does not automatically remove its link.
+All optional sections currently have `true` visibility flags in [`src/data/site.ts`](../src/data/site.ts). The projects flag also controls the marquee. Hero and the root-layout cursor are not controlled by those flags. Navigation is a separate static array; hiding a section does not automatically remove its link.
 
 | Component | File and important inputs | Responsibilities and motion | Related styles and placement |
 | --- | --- | --- | --- |
@@ -57,7 +57,7 @@ The following components use `"use client"` because they contain Motion hooks, b
 | `BuildLabSection` | [`build-lab-section.tsx`](../src/components/build-lab-section.tsx); local `stages` and `stageWindows` | Five stages—Idea, Structure, Code, Break, Ship—are driven by one scroll MotionValue. Desktop uses a 380svh scroll container and sticky scene. Small screens/reduced motion use static stage articles. The navigator describes progress; its list items are not controls. This is an illustrative process, not a real build or deployment integration. | `.build-lab-*`, `.lab-*`, `.static-*`, `.frame-*`, `.measure-*`, `.structure-*`, `.annotation-*`, `.code-*`. |
 | `RecognitionSection` | [`recognition-section.tsx`](../src/components/recognition-section.tsx); `recognitionItems` | Displays the certificate heading, three-card fan and viewer selection state. A once-only in-view trigger opens the fan. Hover/focus raises/straightens a card and shifts siblings. On smaller screens the cards become a horizontal scroll-snap row. | `.recognition-section`, `.recognition-heading`, `.recognition-stage`, `.recognition-card*`, `.recognition-image`. |
 | `ContactFooter` | [`contact-footer.tsx`](../src/components/contact-footer.tsx); `year: number`, `socials`, `navigation` | Contact heading, availability copy, Email/GitHub/LinkedIn/Resume rows, footer navigation/back-to-top, large name and shared mascot. Footer has once-only entrances and mouse parallax. No message form or submission backend exists. | `.site-footer`, `.contact-*`, `.final-footer`, `.footer-*`, `.back-to-top`. |
-| `CustomCursor` | [`custom-cursor.tsx`](../src/components/custom-cursor.tsx); media-query state and pointer position | Enabled only for a fine pointer with hover and without reduced motion. A spring cursor follows pointer movement; nearest `a`, `button`, or `[data-cursor]` determines active state and an optional label. It is decorative (`aria-hidden`). | `.custom-cursor`, `.is-active`, `.has-label`; mounted outside the homepage main by `PortfolioShell`. |
+| `CustomCursor` | [`custom-cursor.tsx`](../src/components/custom-cursor.tsx); media-query state and pointer position | One live `matchMedia` query enables it only for a fine pointer with hover and without reduced motion, and updates when those conditions change. A spring cursor follows pointer movement; nearest `a`, `button`, or `[data-cursor]` determines active state and an optional label. It is decorative (`aria-hidden`) and does not intercept pointer events or text selection. | `.custom-cursor`, `.is-active`, `.has-label`; one persistent instance mounted by `RootLayout` directly under `body`, outside route content, for the homepage and all case studies. |
 
 ### Important internal section helpers
 

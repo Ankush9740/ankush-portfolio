@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import Script from "next/script";
+import { CustomCursor } from "@/components/custom-cursor";
 import { PORTFOLIO_INTRO_STORAGE_KEY } from "@/lib/portfolio-intro";
 import "./globals.css";
 
@@ -56,6 +57,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`} data-scroll-behavior="smooth">
       <body>
         {children}
+        <CustomCursor />
         <Script id="portfolio-intro-session-bootstrap" strategy="beforeInteractive">
           {introBootstrapScript}
         </Script>

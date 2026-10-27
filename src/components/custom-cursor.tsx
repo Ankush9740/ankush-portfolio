@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useMotionValue, useReducedMotion, useSpring } from "motion/react";
+import { motion, useMotionValue, useSpring } from "motion/react";
 import { useEffect, useState } from "react";
 
 export function CustomCursor() {
@@ -11,15 +11,14 @@ export function CustomCursor() {
   const [label, setLabel] = useState("");
   const [active, setActive] = useState(false);
   const [enabled, setEnabled] = useState(false);
-  const reducedMotion = useReducedMotion();
 
   useEffect(() => {
-    const query = window.matchMedia("(pointer: fine) and (hover: hover)");
-    const update = () => setEnabled(query.matches && !reducedMotion);
+    const query = window.matchMedia("(pointer: fine) and (hover: hover) and (prefers-reduced-motion: no-preference)");
+    const update = () => setEnabled(query.matches);
     update();
     query.addEventListener("change", update);
     return () => query.removeEventListener("change", update);
-  }, [reducedMotion]);
+  }, []);
 
   useEffect(() => {
     if (!enabled) return;

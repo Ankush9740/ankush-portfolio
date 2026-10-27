@@ -37,7 +37,7 @@ The lockfile resolves Next.js 16.3.6, React/React DOM 19.3.0, TypeScript 6.0.3, 
 
 | Location | Responsibility |
 | --- | --- |
-| `src/app/layout.tsx` | Root document, metadata, Inter/Space Grotesk font variables, global CSS, returning-session intro bootstrap |
+| `src/app/layout.tsx` | Root document, metadata, Inter/Space Grotesk font variables, global CSS, shared cursor, returning-session intro bootstrap |
 | `src/app/page.tsx` | Homepage server entry; passes a UTC year to `PortfolioShell` |
 | `src/app/projects/[slug]/page.tsx` | Shared server-rendered case study, static project params, metadata, unknown-slug `notFound()` |
 | `src/app/globals.css` | All authored component styles, project-specific visual keyframes, responsive overrides |
@@ -50,7 +50,7 @@ The lockfile resolves Next.js 16.3.6, React/React DOM 19.3.0, TypeScript 6.0.3, 
 | `src/data/` | Portfolio copy, navigation, visibility switches, projects, skills, certificates, socials |
 | `public/` | Served images, resume PDF and favicon |
 
-Homepage composition is `Hero → AboutSection → ProjectsSection → EditorialMarquee → SkillsSection → BuildLabSection → RecognitionSection → ContactFooter`, with `CustomCursor` mounted by the shell. `Hero` contains the homepage navbar; case studies have their own header. `JourneySection` exists but is not mounted. Do not enable it as part of unrelated work.
+Homepage composition is `Hero → AboutSection → ProjectsSection → EditorialMarquee → SkillsSection → BuildLabSection → RecognitionSection → ContactFooter`. `RootLayout` mounts one shared `CustomCursor` directly under `body`, outside route content, for the homepage and all case studies. `Hero` contains the homepage navbar; case studies have their own header. `JourneySection` exists but is not mounted. Do not enable it as part of unrelated work.
 
 ## Routing and data conventions
 

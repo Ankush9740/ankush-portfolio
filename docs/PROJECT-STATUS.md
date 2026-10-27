@@ -2,7 +2,7 @@
 
 Last documentation/source review: **2026-10-27**.
 
-This status describes the repository inspected for this handoff. “Implemented” means the behavior is present in source; it does not mean a new browser session, live deployment, external repository, or external demo was verified. No application code or assets were changed in this documentation task.
+This status describes the repository inspected for this handoff. “Implemented” means the behavior is present in source; it does not mean a live deployment, external repository, or external demo was verified. The initial documentation review did not change application code or assets; the subsequent cursor-only fix and its local validation are recorded below.
 
 Related: [agent entry point](../AGENTS.md), [setup](../README.md), [architecture](PROJECT-ARCHITECTURE.md), [design](DESIGN-SYSTEM.md), [component/change guide](COMPONENTS-AND-PAGES.md).
 
@@ -46,9 +46,13 @@ Autrix's gallery currently has no introductory showcase text because its `mediaH
 - Skills: one-time reveal and magnetic mouse interaction.
 - Build Lab: sticky scroll-driven five-stage interface transformation; static stage content on narrow screens/reduced motion.
 - Recognition: card fan, hover/focus lift and animated modal. Modal supports Tab containment, Escape, close button, backdrop close, body-scroll lock and focus restoration.
-- Contact/cursor: restrained row feedback, footer entrance, and fine-pointer custom cursor on the homepage.
+- Contact/cursor: restrained row feedback, footer entrance, and the same fine-pointer custom cursor on the homepage and all four case studies.
 
 The [design guide](DESIGN-SYSTEM.md) documents the actual selectors, tokens and breakpoint behavior. There is no global animated route-transition component.
+
+Cursor behavior was corrected after the documentation baseline: `RootLayout` now mounts the shared `CustomCursor` once, directly under `body` outside route content, rather than the homepage shell. Its fine-pointer, hover and no-reduced-motion eligibility now uses one live `matchMedia` query and change listener, matching the CSS condition and responding to preference changes without reload. These fixes supply all case-study routes with the same cursor styles, hover states and spring movement. `pointer-events: none` remains unchanged, preserving native selection/click behavior; touch and reduced-motion modes retain the native fallback.
+
+Cursor-specific validation on **2026-10-27** passed against the local production build in an isolated headless Edge profile: homepage and all four case studies at 1440px, text/image/caption/link targets, unchanged base/hover sizes and blend/color styles, one body-level cursor, persistent client navigation, homepage certificate overlay, native drag text selection and keyboard focus. Live reduced-motion and 390px touch emulation both removed the custom cursor and restored native `cursor: auto`. ESLint, TypeScript, production build and diff checks also passed. These checks cover the cursor fix, not a fresh full-site visual/accessibility audit.
 
 ## Confirmed limitations and maintenance risks
 
@@ -56,7 +60,6 @@ These are source observations, not fixes performed by this documentation task.
 
 | Finding | Evidence and consequence | Follow-up scope |
 | --- | --- | --- |
-| Cursor rules span more routes than the cursor component | Global fine-pointer/no-reduced-motion CSS hides the native cursor on `body`, links, buttons and tabindex elements. `CustomCursor` is mounted only by the homepage shell, not the case-study route. | Manually inspect case-study pointer visibility; scope hiding rules or cursor ownership in a separately requested fix. |
 | Reduced-motion coverage is not uniform | CSS shortens CSS animation/transition durations and hooks bypass many effects. Hero entrance variants, the certificate dialog and parts of the footer still contain explicit Motion transitions. | Audit with the preference enabled before claiming complete motion suppression. |
 | Homepage reveal needs client execution | Initial shell uses `.site-waiting` until the intro lifecycle runs. No equivalent no-JavaScript reveal path is implemented. | Evaluate progressive enhancement separately if required. |
 | Project numbers are partly manual | Array order drives count, small card position and active HUD; `Project.number` drives the large numeral and case header. | Maintain number strings on reorder/addition; do not document them as fully derived. |
@@ -100,7 +103,7 @@ The source contains rules for desktop, tablet, mobile, short-height and reduced-
 
 The following are suggestions, not approved work or already implemented functionality:
 
-1. Resolve the cursor ownership mismatch and complete the reduced-motion audit.
+1. Complete the reduced-motion audit.
 2. Add targeted smoke tests for intro/session/hash behavior, project routing and indicator progress, modal keyboard handling and image assets.
 3. Confirm repeated screenshot assets and maintain honest captions with distinctive views where available.
 4. Consolidate duplicated identity/metadata/numbering only when a focused refactor is requested.

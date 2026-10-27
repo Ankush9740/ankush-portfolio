@@ -170,7 +170,7 @@ Reduced-motion CSS changes animation/transition durations to `0.01ms`, limits lo
 
 Coverage is partial: some Motion `animate` props, especially certificate-dialog entry/exit, do not branch on `useReducedMotion`. CSS duration rules do not necessarily suppress JavaScript-driven motion. Verify both the component and global query when changing motion.
 
-`CustomCursor` is mounted by the homepage shell, while native-cursor hiding CSS applies globally on eligible devices. Case-study cursor behavior needs a browser check; see [status limitations](PROJECT-STATUS.md). No formal accessibility compliance claim is made.
+`RootLayout` mounts one persistent `CustomCursor` directly under `body`, outside homepage and case-study content. One live `matchMedia` query combines fine-pointer, hover and no-reduced-motion conditions and subscribes to changes, keeping cursor eligibility synchronized with the CSS query. Spring movement, sizes, colors, blend modes and hover states are shared unchanged across routes. Its `pointer-events: none` preserves native clicks, text selection and focus behavior; placement outside content avoids local clipping and stacking contexts. Fresh runtime verification of the cursor fixes is recorded separately from the documentation baseline in [Project Status](PROJECT-STATUS.md). No formal accessibility compliance claim is made.
 
 ## Safe visual changes
 

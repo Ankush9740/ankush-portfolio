@@ -16,7 +16,7 @@ The introductory screen is a timed animation with session storage, not a passwor
 
 | Location | Responsibility |
 | --- | --- |
-| [`src/app/layout.tsx`](../src/app/layout.tsx) | Root HTML/body, font variables, metadata, global CSS import, homepage intro bootstrap script. |
+| [`src/app/layout.tsx`](../src/app/layout.tsx) | Root HTML/body, font variables, metadata, global CSS import, shared custom cursor, homepage intro bootstrap script. |
 | [`src/app/page.tsx`](../src/app/page.tsx) | Homepage Server Component; calculates the UTC year and renders `PortfolioShell`. |
 | [`src/app/projects/[slug]/page.tsx`](../src/app/projects/%5Bslug%5D/page.tsx) | Shared project case-study Server Component, metadata, generated route parameters. |
 | [`src/app/globals.css`](../src/app/globals.css) | Design tokens, all component styles, project animation keyframes, responsive and reduced-motion rules. |
@@ -52,7 +52,7 @@ Other repository material has a different role:
 
 `generateStaticParams()` maps the current `projects` array to route slugs for build-time generation. The async page and `generateMetadata()` await `params: Promise<{ slug: string }>` before looking up the entry. There is no separate page file per project and no explicit `dynamicParams = false` setting.
 
-The root layout is shared by homepage and case studies. Case studies do **not** render `PortfolioShell`, its navbar, cinematic intro, custom cursor, or homepage footer. Their own header supplies a `Link` back to `/#work`, the name mark, and project numbering. There are no custom route-level loading, error, not-found, template, or page-transition components in the current source tree.
+The root layout is shared by homepage and case studies and mounts one persistent `CustomCursor` directly under `body`, outside route content. Case studies do **not** render `PortfolioShell`, its navbar, cinematic intro, or homepage footer. Their own header supplies a `Link` back to `/#work`, the name mark, and project numbering. There are no custom route-level loading, error, not-found, template, or page-transition components in the current source tree.
 
 ```mermaid
 flowchart TD
@@ -69,11 +69,11 @@ flowchart TD
   Shell --> Lab["BuildLabSection"]
   Shell --> Certs["RecognitionSection"]
   Shell --> Contact["ContactFooter"]
-  Shell --> Cursor["CustomCursor"]
+  Root --> Cursor["Shared CustomCursor outside route content"]
   Case --> CaseParts["Header → hero → engineering/technology → narrative → media → links"]
 ```
 
-The homepage's section visibility flags control About, projects/marquee, Skills, Lab, Certificates, and Contact/Footer. Hero and CustomCursor remain mounted. Navigation is a separate array and does not automatically filter when a visibility flag is disabled.
+The homepage's section visibility flags control About, projects/marquee, Skills, Lab, Certificates, and Contact/Footer. Hero remains mounted by the shell; the shared cursor belongs to the root layout independently of these flags. Navigation is a separate array and does not automatically filter when a visibility flag is disabled.
 
 ## Intro lifecycle and navigation restoration
 
