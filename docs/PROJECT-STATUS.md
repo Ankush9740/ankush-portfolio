@@ -39,7 +39,7 @@ Autrix's gallery currently has no introductory showcase text because its `mediaH
 
 - Cinematic intro: staggered masked letters, moving rule/light pass, upward exit; short fade under reduced motion.
 - Hero/footer: entrances, mascot idle motion, pointer parallax, large type and scroll-related Hero changes.
-- About: 3D perspective orbit, smooth spring rotation (3s auto-advance with idle cooldown and HUD toggle), pointer drag/touch swipe inertia snapping, direct click-to-center, keyboard navigation, backdrop parallax, and hover/focus card emphasis.
+- About: 3D perspective orbit, smooth spring rotation (1.8s auto-advance with idle cooldown and HUD toggle), pointer drag/touch swipe inertia snapping, direct click-to-center, keyboard navigation, backdrop parallax, and hover/focus card emphasis.
 - Selected Work: pinned stack; incoming cards map shared scroll progress to translation. HUD position/name derives from project order and rounded progress boundaries. It is hidden on mobile and not rendered in reduced-motion mode.
 - Project visuals: Quizloom room/player/answer cycle, Autrix image/vision/result cycle, API Sentinel request/response/assertion cycle, FilePilot scan/sort/duplicate/undo illustration. These are illustrative DOM/CSS animations with fixed sample values, not live service calls.
 - Marquee: scroll-delta/inertia movement, repeated text sequence and resize handling.

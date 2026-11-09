@@ -340,13 +340,13 @@ export function AboutSection() {
     }
   });
 
-  // Automatic carousel rotation heartbeat (every 3s per card)
+  // Automatic carousel rotation heartbeat (every 1.8s per card)
   useEffect(() => {
     if (reducedMotion || userPaused || !isTabVisible) return;
 
     lastAdvanceTimeRef.current = Date.now();
-    const AUTOPLAY_INTERVAL = 3000;
-    const IDLE_COOLDOWN = 3000;
+    const AUTOPLAY_INTERVAL = 1800;
+    const IDLE_COOLDOWN = 1800;
 
     const timer = setInterval(() => {
       if (isDraggingRef.current) {
