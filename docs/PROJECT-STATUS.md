@@ -14,7 +14,7 @@ Related: [agent entry point](../AGENTS.md), [setup](../README.md), [architecture
 | Homepage | Server entry supplies UTC year; client shell composes visible sections | [page.tsx](../src/app/page.tsx), [portfolio-shell.tsx](../src/components/portfolio-shell.tsx) |
 | Introduction | Automatic completion, Skip, Escape, session-storage completion marker and returning-session bootstrap | [portfolio-intro.tsx](../src/components/portfolio-intro.tsx), [portfolio-intro.ts](../src/lib/portfolio-intro.ts) |
 | Hero/navigation | Desktop anchor nav, native mobile details menu, resume link, depth wordmark and mascot | [hero.tsx](../src/components/hero.tsx) |
-| About | Seven data-backed cards with desktop depth/orbit composition and responsive grids | [about-section.tsx](../src/components/about-section.tsx), [about.ts](../src/data/about.ts) |
+| About | Seven data-backed cards with 3D cylindrical rotating orbit, drag/swipe inertia, click-to-center, HUD counter, pagination dots and static accessible fallback | [about-section.tsx](../src/components/about-section.tsx), [about.ts](../src/data/about.ts) |
 | Selected Work | Shared four-card stack, active-project HUD, data-driven count and custom visual registry | [projects-section.tsx](../src/components/projects-section.tsx), [project-card.tsx](../src/components/project-card.tsx), [project-visuals.tsx](../src/components/project-visuals.tsx) |
 | Case studies | Shared `/projects/[slug]` template for Quizloom, Autrix, API Sentinel and FilePilot; unknown slug calls `notFound()` | [project route](../src/app/projects/[slug]/page.tsx), [projects.ts](../src/data/projects.ts) |
 | Skills | Six groups and thirty skill entries with icon lookup; no proficiency percentages | [skills-section.tsx](../src/components/skills-section.tsx), [skills.ts](../src/data/skills.ts) |
@@ -39,7 +39,7 @@ Autrix's gallery currently has no introductory showcase text because its `mediaH
 
 - Cinematic intro: staggered masked letters, moving rule/light pass, upward exit; short fade under reduced motion.
 - Hero/footer: entrances, mascot idle motion, pointer parallax, large type and scroll-related Hero changes.
-- About: pointer depth, scroll movement, connector/orbit state, hover/focus card emphasis.
+- About: 3D perspective orbit, smooth spring rotation (3s auto-advance with idle cooldown and HUD toggle), pointer drag/touch swipe inertia snapping, direct click-to-center, keyboard navigation, backdrop parallax, and hover/focus card emphasis.
 - Selected Work: pinned stack; incoming cards map shared scroll progress to translation. HUD position/name derives from project order and rounded progress boundaries. It is hidden on mobile and not rendered in reduced-motion mode.
 - Project visuals: Quizloom room/player/answer cycle, Autrix image/vision/result cycle, API Sentinel request/response/assertion cycle, FilePilot scan/sort/duplicate/undo illustration. These are illustrative DOM/CSS animations with fixed sample values, not live service calls.
 - Marquee: scroll-delta/inertia movement, repeated text sequence and resize handling.

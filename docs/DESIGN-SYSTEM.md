@@ -75,7 +75,7 @@ There is no global maximum-width container or named spacing scale. Most sections
 | Composition | Governing rules |
 | --- | --- |
 | Hero | `.hero`: three-row grid, minimum `100svh`; centered mascot above the wordmark; bottom ruled support row |
-| About | `.about-section` / `.about-field`: tall field with rotated absolute cards and elliptical connector; grid at 1080px |
+| About | `.about-section` / `.about-stage`: 3D cylindrical rotating card carousel with perspective, smooth drag/swipe, direct card click, HUD counter, pagination dots, and prev/next pill buttons; accessible grid under reduced motion |
 | Selected Work | `.project-stage`: sticky `top: 1rem`, `height: calc(100svh - 2rem)`; clipped rounded stage with absolute full-size cards |
 | Card rhythm | Four grid rows: header, descriptions, flexible middle visual, tech pills; gap `clamp(0.75rem, 1.4vh, 1rem)`; desktop vertical padding `clamp(1.5rem, 2.3vh, 2rem)` |
 | Skills | Group title plus bordered item grid; item columns `repeat(auto-fit, minmax(12rem, 1fr))` |
@@ -104,7 +104,7 @@ See [`src/app/projects/[slug]/page.tsx`](../src/app/projects/[slug]/page.tsx), [
 | Header navigation | Uppercase links in a three-column header with bottom rule; red underline grows on hover; mobile uses native `<details>` / `<summary>` |
 | Explore link | Bordered pill; hover reverses ink/paper foreground/background over 220ms |
 | Project links / tech pills | Thin outlined pills, small uppercase type, wrapping flex rows; links remain real anchors or Next links |
-| About cards | Focus and eligible mouse hover lift 6px and strengthen border/background/shadow; scroll sets `.is-orbit-active` |
+| About cards | 3D transform recedes into cylindrical depth with inward rotateY angles and scale differential; hover/focus strengthens border and lighting; active front card highlighted with crimson border; click centers any card |
 | Skills | Mouse-only magnetic wrapper; item hover/focus lifts `0.25rem` and fills the icon red |
 | Certificates | Hover/focus brings a card forward, straightens/enlarges it, and moves siblings aside; click opens the viewer |
 | Contact rows | Fixed geometry/separators; subtle text, border, icon emphasis and dash-to-arrow movement; no floating rectangle |
@@ -132,7 +132,7 @@ The library is `motion`, imported from `motion/react`; source does not import `f
 | Intro | [`portfolio-intro.tsx`](../src/components/portfolio-intro.tsx): masked letter rise, rule and travelling dot; completes after 1750ms then exits upward over 0.75s; reduced version completes after 100ms with 0.12s fade |
 | Return visit | [`portfolio-shell.tsx`](../src/components/portfolio-shell.tsx) and [`layout.tsx`](../src/app/layout.tsx): session completion bypasses the intro and allows a small Hero refresh entrance |
 | Hero | [`hero.tsx`](../src/components/hero.tsx): entry layers, mouse parallax/proximity scale, scroll scale/support fade, CSS breathing |
-| About | [`about-section.tsx`](../src/components/about-section.tsx): pointer springs, scroll field translation/orbit, active-card highlighting |
+| About | [`about-section.tsx`](../src/components/about-section.tsx): 3D cylindrical card carousel with 3s spring auto-rotation, hover/drag/click/focus pause and idle resume, drag/swipe inertia snapping, click-to-center, and upper backdrop scroll parallax |
 | Selected Work | [`projects-section.tsx`](../src/components/projects-section.tsx) / [`project-card.tsx`](../src/components/project-card.tsx): sticky incoming sheets driven by shared progress; HUD derives active index from it |
 | Project demos | [`project-visuals.tsx`](../src/components/project-visuals.tsx), CSS `.quizloom-*`, `.autrix-*`, `.api-sentinel-*`, `.filepilot-*`: independent room, analysis, request, scan/sort loops |
 | Marquee | [`editorial-marquee.tsx`](../src/components/editorial-marquee.tsx): `requestAnimationFrame` movement driven by scroll impulse, with duplicated text; not a constant automatic ticker |
@@ -152,7 +152,7 @@ These are explicit CSS queries, not device labels. Later repeated blocks can ove
 | Query | Important changes |
 | --- | --- |
 | `min-width: 821px` | Desktop project vertical padding; shared portrait-gallery rules before Autrix overrides |
-| `max-width: 1080px` | About two-column grid; connector/nodes hidden; Skills/Build Lab columns narrow |
+| `max-width: 1080px` | About header column reflow, responsive orbit radius scaling; Skills/Build Lab columns narrow |
 | `max-width: 820px` | Menu replaces desktop nav; Hero scales; Work becomes normal vertical cards, HUD hides; headings reflow; skill groups one-column; static Build Lab; certificate scroll rail; contact/narrative collapse; Home-over-results Autrix gallery |
 | `max-width: 600px` | Autrix stacks, Home first; minimum caption height removed |
 | `max-width: 560px` | Intro/Hero compact; About and project headers one-column; project demos compact; Skills two tile columns; dialog/contact/footer rules apply; case titles wrap, case intro/engineering collapse |
