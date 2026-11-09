@@ -139,7 +139,7 @@ The library is `motion`, imported from `motion/react`; source does not import `f
 | Build Lab | [`build-lab-section.tsx`](../src/components/build-lab-section.tsx): five scroll-scrubbed stages from Idea to Ship; static mobile/reduced-motion alternative |
 | Certificates | [`recognition-section.tsx`](../src/components/recognition-section.tsx): viewport fan-out, spring hover/focus poses, viewer entry/exit |
 | Footer | [`contact-footer.tsx`](../src/components/contact-footer.tsx): once-in-view entry, wordmark/mascot rise, mouse parallax, CSS breathing |
-| Cursor | [`custom-cursor.tsx`](../src/components/custom-cursor.tsx): spring-following dot, larger interactive state, optional `data-cursor` label |
+| Cursor | [`custom-cursor.tsx`](../src/components/custom-cursor.tsx): dual-element architecture with zero-latency red precision dot, spring-following reticle ring, interactive expansion, solid red editorial badge on `data-cursor`, surface tone adaptation and click micro-compression |
 
 There is no global route-transition component or router-wide exit animation. Case navigation uses ordinary Next links/rendering. Intro and viewer transitions are local.
 
@@ -170,7 +170,7 @@ Reduced-motion CSS changes animation/transition durations to `0.01ms`, limits lo
 
 Coverage is partial: some Motion `animate` props, especially certificate-dialog entry/exit, do not branch on `useReducedMotion`. CSS duration rules do not necessarily suppress JavaScript-driven motion. Verify both the component and global query when changing motion.
 
-`RootLayout` mounts one persistent `CustomCursor` directly under `body`, outside homepage and case-study content. One live `matchMedia` query combines fine-pointer, hover and no-reduced-motion conditions and subscribes to changes, keeping cursor eligibility synchronized with the CSS query. Spring movement, sizes, colors, blend modes and hover states are shared unchanged across routes. Its `pointer-events: none` preserves native clicks, text selection and focus behavior; placement outside content avoids local clipping and stacking contexts. Fresh runtime verification of the cursor fixes is recorded separately from the documentation baseline in [Project Status](PROJECT-STATUS.md). No formal accessibility compliance claim is made.
+`RootLayout` mounts one persistent `CustomCursor` directly under `body`, outside homepage and case-study content. One live `matchMedia` query combines fine-pointer, hover and no-reduced-motion conditions and subscribes to changes, keeping cursor eligibility synchronized with the CSS query. Its dual-element structure combines a zero-latency red precision center dot with a smooth spring-following follower ring (`stiffness: 350, damping: 28, mass: 0.5`) that expands over interactive elements (`a`, `button`, `summary`, `[role="button"]`), blooms into a Space Grotesk editorial red badge over `[data-cursor]` targets, adapts ambient border contrast across dark charcoal and light paper surfaces, and compresses slightly on mouse click. Its `pointer-events: none` preserves native clicks, text selection and focus behavior; placement outside content avoids local clipping and stacking contexts. Fresh runtime verification of the refined cursor is recorded in [Project Status](PROJECT-STATUS.md). No formal accessibility compliance claim is made.
 
 ## Safe visual changes
 
